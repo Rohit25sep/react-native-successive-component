@@ -26,7 +26,7 @@ jobs:
       - name: Run tests
         run: |
           cd template
-          cp src/Config/index.example.js src/Config/index.js
+          cp src/Config/index.js src/Config/index.js
           yarn test
       - name: Run type check
         run: |

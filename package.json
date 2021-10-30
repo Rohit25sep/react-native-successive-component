@@ -1,29 +1,13 @@
 {
-  "name": "@rohit25sep/react-native-successive-component",
-  "version": "3.0.3",
-  "description": "TheCodingMachine React Native Boilerplate",
+  "name": "react-native-successive-component",
+  "version": "0.0.1",
+  "description": "react-native-successive-component",
   "repository": {
     "type": "git",
     "url": "https://github.com/rohit25sep/react-native-successive-component.git"
   },
-  "author": "TheCodingMachine Lyon <lyon@thecodingmachine.com>",
+  "author": "Rohit Kumar",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/thecodingmachine/react-native-boilerplate/issues"
-  },
-  "homepage": "https://thecodingmachine.github.io/react-native-boilerplate/",
-  "main": "post-init.script.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "react",
-    "native",
-    "boilerplate",
-    "rohit25sep",
-    "react-native",
-    "starter-kit"
-  ],
   "dependencies": {
     "prompts": "^2.4.1",
     "kleur": "^4.1.4"
