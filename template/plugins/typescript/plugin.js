@@ -1,9 +1,9 @@
-const { existsSync } = require('fs')
-const { copyFile, rename, readdir, lstat, unlink } = require('fs').promises
-const { execSync } = require('child_process')
+const { existsSync } = require("fs");
+const { copyFile, rename, readdir, lstat, unlink } = require("fs").promises;
+const { execSync } = require("child_process");
 
-const SCRIPT_PATH = './plugins/typescript'
-const TEMPLATE_PATH = '.'
+const SCRIPT_PATH = "./plugins/typescript";
+const TEMPLATE_PATH = ".";
 
 /**
  * Apply ts files come from ts-src-override in the src folder and remove js files
@@ -12,30 +12,30 @@ const TEMPLATE_PATH = '.'
  * @return {Promise<*>}
  */
 async function overrideWithTypeScript(
-  accumulatedPath = '/',
-  tsRoot = `${SCRIPT_PATH}/template`,
+  accumulatedPath = "/",
+  tsRoot = `${SCRIPT_PATH}/template`
 ) {
-  const files = await readdir(`${tsRoot}${accumulatedPath}`)
+  const files = await readdir(`${tsRoot}${accumulatedPath}`);
   return Promise.all(
-    files.map(async item => {
+    files.map(async (item) => {
       // File found
-      const element = await lstat(`${tsRoot}${accumulatedPath}${item}`)
+      const element = await lstat(`${tsRoot}${accumulatedPath}${item}`);
       if (!element.isDirectory()) {
-        const [name] = item.split('.')
+        const [name] = item.split(".");
         // Copy the ts file in the src associated path
         await copyFile(
           `${tsRoot}${accumulatedPath}${item}`,
-          `${TEMPLATE_PATH}${accumulatedPath}${item}`,
-        )
+          `${TEMPLATE_PATH}${accumulatedPath}${item}`
+        );
         // If a same name js file is found, delete it
         if (existsSync(`${TEMPLATE_PATH}${accumulatedPath}${name}.js`)) {
-          return unlink(`${TEMPLATE_PATH}${accumulatedPath}${name}.js`)
+          return unlink(`${TEMPLATE_PATH}${accumulatedPath}${name}.js`);
         }
-        return Promise.resolve()
+        return Promise.resolve();
       }
-      return overrideWithTypeScript(`${accumulatedPath}${item}/`)
-    }),
-  )
+      return overrideWithTypeScript(`${accumulatedPath}${item}/`);
+    })
+  );
 }
 
 /**
@@ -46,42 +46,42 @@ async function overrideWithTypeScript(
  * @return {Promise<*>}
  */
 async function renameWithTypeScript(
-  accumulatedPath = '/',
+  accumulatedPath = "/",
   isTsx = true,
-  jsRoot = `${TEMPLATE_PATH}/src`,
+  jsRoot = `${TEMPLATE_PATH}/src`
 ) {
-  const EXCLUDED_DIRECTORIES = ['Assets', 'Config']
-  const TSX_DIRECTORIES = ['Components', 'Containers', 'Navigators']
-  const files = await readdir(`${jsRoot}${accumulatedPath}`)
+  const EXCLUDED_DIRECTORIES = ["Assets", "Config"];
+  const TSX_DIRECTORIES = ["Components", "Containers", "Navigators"];
+  const files = await readdir(`${jsRoot}${accumulatedPath}`);
   return Promise.all(
-    files.map(async item => {
-      const [name, extension] = item.split('.')
-      const element = await lstat(`${jsRoot}${accumulatedPath}${item}`)
+    files.map(async (item) => {
+      const [name, extension] = item.split(".");
+      const element = await lstat(`${jsRoot}${accumulatedPath}${item}`);
       if (!element.isDirectory()) {
-        if (extension === 'js') {
-          let fileExtension = '.ts'
+        if (extension === "js") {
+          let fileExtension = ".ts";
           const firstCharIsUpperCase =
-            name.charAt(0).toUpperCase() === name.charAt(0)
+            name.charAt(0).toUpperCase() === name.charAt(0);
           if (isTsx && firstCharIsUpperCase) {
-            fileExtension = '.tsx'
+            fileExtension = ".tsx";
           }
           return rename(
             `${jsRoot}${accumulatedPath}${item}`,
-            `${jsRoot}${accumulatedPath}${name}${fileExtension}`,
-          )
+            `${jsRoot}${accumulatedPath}${name}${fileExtension}`
+          );
         }
-        return Promise.resolve()
+        return Promise.resolve();
       }
       const tsxCondition =
-        accumulatedPath === '/'
+        accumulatedPath === "/"
           ? TSX_DIRECTORIES.includes(item)
-          : isTsx || TSX_DIRECTORIES.includes(item)
+          : isTsx || TSX_DIRECTORIES.includes(item);
       if (!EXCLUDED_DIRECTORIES.includes(item)) {
-        return renameWithTypeScript(`${accumulatedPath}${item}/`, tsxCondition)
+        return renameWithTypeScript(`${accumulatedPath}${item}/`, tsxCondition);
       }
-      return Promise.resolve()
-    }),
-  )
+      return Promise.resolve();
+    })
+  );
 }
 
 /**
@@ -92,10 +92,10 @@ async function chooseTypescript() {
   // add the tsconfig.json
   await copyFile(
     `${SCRIPT_PATH}/template/tsconfig.example.json`,
-    `${TEMPLATE_PATH}/tsconfig.json`,
-  )
-  await overrideWithTypeScript()
-  await renameWithTypeScript()
+    `${TEMPLATE_PATH}/tsconfig.json`
+  );
+  await overrideWithTypeScript();
+  await renameWithTypeScript();
 }
 
 module.exports = {
@@ -106,24 +106,24 @@ module.exports = {
    */
   async apply(value, previousValues) {
     if (value) {
-      await chooseTypescript()
+      await chooseTypescript();
       await copyFile(
-        `${TEMPLATE_PATH}/src/Config/index.example.js`,
-        `${TEMPLATE_PATH}/src/Config/index.ts`,
-      )
+        `${TEMPLATE_PATH}/src/Config/index.js`,
+        `${TEMPLATE_PATH}/src/Config/index.ts`
+      );
       await rename(
-        `${TEMPLATE_PATH}/src/Config/index.example.js`,
-        `${TEMPLATE_PATH}/src/Config/index.example.ts`,
-      )
+        `${TEMPLATE_PATH}/src/Config/index.js`,
+        `${TEMPLATE_PATH}/src/Config/index.ts`
+      );
       execSync(
-        'yarn add -D typescript @types/jest @types/react @types/react-native @types/react-test-renderer @types/fbemitter @types/react-redux',
-        { stdio: 'pipe' },
-      )
+        "yarn add -D typescript @types/jest @types/react @types/react-native @types/react-test-renderer @types/fbemitter @types/react-redux",
+        { stdio: "pipe" }
+      );
     } else {
       await copyFile(
-        `${TEMPLATE_PATH}/src/Config/index.example.js`,
         `${TEMPLATE_PATH}/src/Config/index.js`,
-      )
+        `${TEMPLATE_PATH}/src/Config/index.js`
+      );
     }
   },
-}
+};
