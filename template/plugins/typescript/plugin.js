@@ -108,12 +108,12 @@ module.exports = {
     if (value) {
       await chooseTypescript();
       await copyFile(
-        `${TEMPLATE_PATH}/src/Config/index.js`,
+        `${TEMPLATE_PATH}/src/Config/index.example.js`,
         `${TEMPLATE_PATH}/src/Config/index.ts`
       );
       await rename(
-        `${TEMPLATE_PATH}/src/Config/index.js`,
-        `${TEMPLATE_PATH}/src/Config/index.ts`
+        `${TEMPLATE_PATH}/src/Config/index.example.js`,
+        `${TEMPLATE_PATH}/src/Config/index.example.ts`
       );
       execSync(
         "yarn add -D typescript @types/jest @types/react @types/react-native @types/react-test-renderer @types/fbemitter @types/react-redux",
@@ -121,7 +121,7 @@ module.exports = {
       );
     } else {
       await copyFile(
-        `${TEMPLATE_PATH}/src/Config/index.js`,
+        `${TEMPLATE_PATH}/src/Config/index.example.js`,
         `${TEMPLATE_PATH}/src/Config/index.js`
       );
     }
