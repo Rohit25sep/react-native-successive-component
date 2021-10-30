@@ -1,5 +1,5 @@
 {
-  "name": "@rohit25sep/react-native-boilerplate",
+  "name": "@rohit25sep/react-native-successive-component",
   "version": "3.0.3",
   "description": "TheCodingMachine React Native Boilerplate",
   "repository": {
@@ -20,7 +20,7 @@
     "react",
     "native",
     "boilerplate",
-    "thecodingmachine",
+    "rohit25sep",
     "react-native",
     "starter-kit"
   ],
