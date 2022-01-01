@@ -1,10 +1,10 @@
 {
-  "name": "react-native-component",
+  "name": "react-native-project-base",
   "version": "0.0.1",
-  "description": "react-native-component",
+  "description": "react-native-project-base",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rohit25sep/react-native-component.git"
+    "url": "https://github.com/rohit25sep/react-native-project-base.git"
   },
   "author": "Rohit",
   "dependencies": {
