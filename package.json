@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/rohit25sep/react-native-base-app.git"
   },
-  "author": "Rohit",
+  "author": "Rohit-kumar",
   "dependencies": {
     "prompts": "^2.4.1",
     "kleur": "^4.1.4"
